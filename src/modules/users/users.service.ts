@@ -19,4 +19,10 @@ export class UsersService {
     return createdUser.save();
   }
 
+  async getUserByEmail(email: string): Promise<User | null> {
+    const user = this.userModel.findOne({ email });
+    if (!user) return null;
+    return (await user).toObject();
+  }
+
 }
