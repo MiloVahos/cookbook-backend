@@ -1,16 +1,20 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from "@nestjs/mongoose";
-import { ConfigModule } from "@nestjs/config";
-
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from './config/config.module';
+import { ConfigService } from './config/config.service';
+import { UsersModule } from './modules/users/users.module';
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
+    ConfigModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('MONGODB_CONNECTION_STRING'),
+        useNewUrlParser: true,
+      }),
+      inject: [ConfigService],
     }),
-    MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING, {
-      useNewUrlParser: true,
-      connectionName: process.env.MONGODB_DB_NAME,
-    })
-  ]
+    UsersModule,
+  ],
 })
 export class AppModule {}
