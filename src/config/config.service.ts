@@ -22,7 +22,7 @@ export class ConfigService {
       JWT_SECRET: Joi.required(),
       TOKEN_EXP_TIME: Joi.required(),
       AWS_REGION: Joi.required(),
-      AWS_ACCESS_KEY_I: Joi.required(),
+      AWS_ACCESS_KEY_ID: Joi.required(),
       AWS_SECRET_ACCESS_KEY: Joi.required(),
     });
 

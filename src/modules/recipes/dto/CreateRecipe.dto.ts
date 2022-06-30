@@ -1,6 +1,7 @@
 export interface CreateRecipeDTO {
-  author: string;
-  authorId: string;
-  title: string;
-  description: string;
+  author: string,
+  authorId: string,
+  title: string,
+  description: string,
+  imgUrl: string,
 }

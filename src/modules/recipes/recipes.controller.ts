@@ -1,11 +1,10 @@
-import { Body, Controller, Post, Res, UseGuards, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Res, UploadedFile, UseGuards, UseInterceptors, UsePipes } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
-import { BodyValidatorPipe } from 'src/pipes/bodyValidator.pipe';
 import { CreateRecipeDTO } from './dto/CreateRecipe.dto';
 import { CreateRecipeRequestDTO } from './dto/CreateRecipeRequest.dto';
 import { RecipesService } from './recipes.service';
-import { createRecipeSchema } from './schemas/createRecipeSchema';
 
 @ApiTags('Recipes')
 @UseGuards(AuthGuard('jwt'))
@@ -16,16 +15,20 @@ export class RecipesController {
 
   @ApiOkResponse({ description: 'New recipe saved in the db' })
   @Post()
-  @UsePipes(new BodyValidatorPipe(createRecipeSchema))
-  async createRecipe(@Body() body: CreateRecipeRequestDTO, @Res() res): Promise<any> {
+  @UseInterceptors(FileInterceptor('file'))
+  async createRecipe(@UploadedFile() file: Express.Multer.File, @Body() body: CreateRecipeRequestDTO, @Res() res): Promise<any> {
     const { title, description } = body;
+    if (!title || !description) throw new BadRequestException('title and description are required')
+    const location = await this.recipesService.saveRecipeFile(file);
     const createRecipeDto: CreateRecipeDTO = {
       author: res.locals.userName,
       authorId:  res.locals.userId,
       title,
       description,
+      imgUrl: location,
     }
-    res.send(await this.recipesService.createNewRecipe(createRecipeDto));
+    const saveRecipeResult = await this.recipesService.createNewRecipe(createRecipeDto);
+    res.send(saveRecipeResult);
   }
 
 }
