@@ -26,4 +26,13 @@ export class AuthService {
     };
   }
 
+  decodeToken(token: string): any {
+    try {
+      const decodedData = this.jwtService.decode(token.split(' ')[1]);
+      return decodedData;
+    } catch (error) {
+      return null;
+    }
+  }
+
 }

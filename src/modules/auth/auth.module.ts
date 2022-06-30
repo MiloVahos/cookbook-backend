@@ -26,6 +26,7 @@ import { ConfigService } from 'src/config/config.service';
     })
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

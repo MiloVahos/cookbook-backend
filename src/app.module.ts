@@ -4,6 +4,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { RecipesModule } from './modules/recipes/recipes.module';
 @Module({
   imports: [
     ConfigModule,
@@ -17,6 +18,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    RecipesModule,
   ],
 })
 export class AppModule {}
