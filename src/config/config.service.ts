@@ -19,6 +19,8 @@ export class ConfigService {
         .default('development'),
       PORT: Joi.number().default(3000),
       MONGODB_CONNECTION_STRING: Joi.required(),
+      JWT_SECRET: Joi.required(),
+      TOKEN_EXP_TIME: Joi.required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(
