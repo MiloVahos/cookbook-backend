@@ -7,8 +7,10 @@ import { RecipesController } from './recipes.controller';
 import { RecipesService } from './recipes.service';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Recipe', schema: RecipeSchema }]),
-            AuthModule],
+  imports: [
+    MongooseModule.forFeature([{ name: 'Recipe', schema: RecipeSchema }]),
+    AuthModule
+  ],
   controllers: [RecipesController],
   providers: [RecipesService],
   exports: [RecipesService],
