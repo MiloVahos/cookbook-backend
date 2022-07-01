@@ -8,7 +8,6 @@ export class UsersController {
 
   constructor(private userService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   async createUser(@Body() body: CreateUserRequestDTO): Promise<any> {
     return await this.userService.createUser(body);

@@ -7,6 +7,7 @@ import { RecipeSchema } from './models/recipe.model';
 import { RecipesController } from './recipes.controller';
 import { RecipesService } from './recipes.service';
 import { S3Service } from './S3Service.service';
+import { AuthorCheckerMiddleware } from 'src/middlewares/authorChecker.middleware';
 
 @Module({
   imports: [
@@ -25,8 +26,18 @@ export class RecipesModule implements NestModule {
       .apply(TokenExtractMiddleware)
       .forRoutes(
         { path: 'recipes', method: RequestMethod.POST },
+        { path: 'recipes/:id', method: RequestMethod.PUT },
+        { path: 'recipes/:id', method: RequestMethod.DELETE },
+      );
+    consumer
+      .apply(AuthorCheckerMiddleware)
+      .forRoutes(
+        { path: 'recipes/:id', method: RequestMethod.PUT },
+        { path: 'recipes/:id', method: RequestMethod.DELETE },
       );
   }
+
+
 
 }
 
