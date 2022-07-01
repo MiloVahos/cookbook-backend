@@ -11,6 +11,10 @@ Follow these steps to configure the application
 4. Run $ npm install
 5. Run the app
 
+## See API documentation
+1. Run the app
+2. Go to localhost:PORT/api
+
 ## Running the app
 
 ```bash
